@@ -46,6 +46,13 @@
   /* clip-path clips each panel's fixed texture to that panel, so every panel shows
      the exact same screen-aligned texture and the join between panels disappears */
   .screen { position: sticky; top: 0; height: 100vh; height: 100dvh; overflow: hidden; background: var(--panel); clip-path: inset(0); }
+  /* Content panels grow to fit their copy on small screens. JS sets --stick so a
+     panel taller than the screen scrolls fully into view before it pins. */
+  .screen.panel {
+    height: auto; min-height: 100vh; min-height: 100dvh; top: var(--stick, 0px);
+    display: flex; align-items: center; justify-content: flex-end;
+    padding: clamp(56px, 10vh, 120px) clamp(20px, 17%, 320px) clamp(112px, 16vh, 150px) 20px;
+  }
   .screen > .texture {
     position: fixed; inset: 0; width: 100vw; height: 100vh; height: 100lvh; object-fit: cover; display: block;
     opacity: .22; filter: grayscale(1) brightness(1.15);
@@ -109,7 +116,8 @@
   }
   .launch { font-size: 12px; }
   .launch-wide { position: absolute; left: clamp(20px, 2.5vw, 48px); bottom: 40px; }
-  .launch-narrow { position: absolute; left: 0; right: 0; top: calc(50% + 130px); text-align: center; font-size: 11px; color: var(--muted); }
+  .launch-narrow { font-size: 11px; color: var(--muted); text-align: center; }
+  @media (max-width: 759px) { .hero-title-wrap { gap: 18px; } .hero-title { font-size: clamp(38px, 11.5vw, 56px); } }
 
   .only-narrow { display: none; }
   @media (max-width: 759px) {
@@ -129,16 +137,17 @@
   /* the wash sits over the painting only, so the marble either side matches the hero exactly */
   .veil { position: absolute; top: 0; bottom: 0; left: clamp(0px, 13.5%, 260px); right: clamp(0px, 10%, 200px); background: rgba(248,248,246,.24); backdrop-filter: blur(1.5px); -webkit-backdrop-filter: blur(1.5px); pointer-events: none; }
   .copy-col {
-    position: absolute; top: 0; bottom: 0; right: clamp(20px, 17%, 320px); width: min(600px, calc(100% - 40px));
-    display: flex; flex-direction: column; justify-content: center; gap: clamp(40px, 12vh, 140px);
+    position: relative; width: min(600px, 100%);
+    display: flex; flex-direction: column; justify-content: center; gap: clamp(28px, 10vh, 140px);
     opacity: calc(min(1, var(--in) * 1.5) - var(--out) * 1.4);
     transform: translateY(calc((1 - var(--in)) * 10vh - var(--out) * 5vh));
     will-change: opacity, transform;
   }
   .copy-col h2 {
     font-family: var(--serif); font-style: normal; font-weight: 400;
-    font-size: clamp(52px, 6.4vw, 112px); line-height: 1; letter-spacing: -0.01em; margin: 0;
-    color: var(--paper); text-shadow: 0 1px 16px rgba(0,0,0,.4);
+    font-size: clamp(42px, 6.4vw, 112px); line-height: 1; letter-spacing: -0.01em; margin: 0;
+    color: var(--paper); text-shadow: 0 1px 16px rgba(0,0,0,.45), 0 0 2px rgba(0,0,0,.25);
+    text-wrap: balance;
   }
   .card {
     border: 1px solid rgba(17,17,16,.18); background: rgba(250,250,248,.9);
@@ -149,6 +158,12 @@
     font-size: clamp(16px, 1.15vw, 18px); line-height: 1.6; color: var(--ink-strong);
   }
   .card p { margin: 0; text-wrap: pretty; }
+  @media (max-width: 759px) {
+    /* phones: painting fills the width behind the card */
+    .painting, .veil { left: 0; right: 0; }
+    .screen.panel { padding-right: 20px; justify-content: center; }
+    .card { background: rgba(250,250,248,.94); }
+  }
   .card .btn { align-self: flex-start; }
 
   /* ---------- Floating bar ---------- */
@@ -160,9 +175,15 @@
     display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 8px 8px 20px;
     box-shadow: 0 1px 0 rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.06);
   }
-  .bar-name { font-family: var(--serif); font-style: italic; font-size: 26px; line-height: 1; color: var(--ink-strong); }
-  .bar-right { display: flex; align-items: center; gap: 14px; }
+  .bar-name { font-family: var(--serif); font-style: italic; font-size: clamp(21px, 6vw, 26px); line-height: 1; color: var(--ink-strong); white-space: nowrap; }
+  .bar-right { display: flex; align-items: center; gap: 14px; flex: none; }
   .bar-free { font-size: 12px; color: var(--ink-strong); }
+  @media (max-width: 400px) {
+    .bar { padding-left: 16px; gap: 8px; }
+    .bar-right { gap: 10px; }
+    .bar .btn { padding: 12px 16px; }
+  }
+  @media (max-width: 340px) { .bar-free { display: none; } }
 
   /* ---------- Modal ---------- */
   .overlay {
@@ -171,7 +192,7 @@
   }
   .overlay[hidden] { display: none; }
   .dialog {
-    position: relative; background: #fff; width: min(100%, 560px); max-height: calc(100vh - 32px); overflow: auto;
+    position: relative; background: #fff; width: min(100%, 560px); max-height: calc(100vh - 32px); max-height: calc(100dvh - 32px); overflow: auto; overscroll-behavior: contain;
     padding: clamp(24px, 3.5vw, 44px); box-shadow: 0 24px 64px rgba(0,0,0,.12);
   }
   .close {
@@ -256,22 +277,22 @@
     <div class="only-narrow">
       <div class="tile" style="left:5%;top:5%;width:32vw;aspect-ratio:3/4"><img src="images/nationaal-archief-1enAsQZiU40-unsplash.jpg" alt="" style="object-position:50% 30%"></div>
       <div class="tile" style="right:5%;top:10%;width:30vw;aspect-ratio:3/4"><img src="images/liam-matthews-tl_fbST9o38-unsplash.jpg" alt="" style="object-position:70% 30%"></div>
-      <div class="tile" style="left:6%;bottom:17%;width:36vw;aspect-ratio:10/9"><img src="images/allyssa-olaivar-C_dSxETlS_4-unsplash.jpg" alt="" style="object-position:40% 40%"></div>
-      <div class="tile" style="right:4%;bottom:21%;width:40vw;aspect-ratio:3/2"><img src="images/frank-flores-0V1NDAvKvYM-unsplash.jpg" alt="" style="object-position:50% 45%"></div>
+      <div class="tile" style="left:6%;bottom:14%;width:31vw;aspect-ratio:10/9"><img src="images/allyssa-olaivar-C_dSxETlS_4-unsplash.jpg" alt="" style="object-position:40% 40%"></div>
+      <div class="tile" style="right:4%;bottom:16%;width:36vw;aspect-ratio:3/2"><img src="images/frank-flores-0V1NDAvKvYM-unsplash.jpg" alt="" style="object-position:50% 45%"></div>
     </div>
    </div>
   </div>
 
   <div class="hero-title-wrap">
     <h1 class="hero-title" aria-label="An inclusive members club. For women building things."><span aria-hidden="true">An inclusive members club.<br>For women building things.</span></h1>
+    <div class="launch launch-narrow mono only-narrow">Launching <span data-bind="meetingMonth"></span></div>
   </div>
 
   <div class="launch launch-wide mono only-wide">Launching <span data-bind="meetingMonth"></span></div>
-  <div class="launch launch-narrow mono only-narrow">Launching <span data-bind="meetingMonth"></span></div>
 </section>
 
 <!-- 01 About us -->
-<section class="screen" aria-labelledby="about-h">
+<section class="screen panel" aria-labelledby="about-h">
   <img class="texture" src="images/karolina-grabowska-vZke0fzGOOQ-unsplash.jpg" alt="">
   <div class="painting"><img src="images/labille-guiard-pupils.jpg" alt="" style="object-position:50% 30%"></div>
   <div class="veil"></div>
@@ -285,7 +306,7 @@
 </section>
 
 <!-- 02 What should I expect -->
-<section class="screen" aria-labelledby="expect-h">
+<section class="screen panel" aria-labelledby="expect-h">
   <img class="texture" src="images/karolina-grabowska-vZke0fzGOOQ-unsplash.jpg" alt="">
   <div class="painting"><img src="images/villers-drawing.jpg" alt="" style="object-position:55% 35%"></div>
   <div class="veil"></div>
@@ -299,7 +320,7 @@
 </section>
 
 <!-- 03 Is this for me -->
-<section class="screen" aria-labelledby="forme-h">
+<section class="screen panel" aria-labelledby="forme-h">
   <img class="texture" src="images/karolina-grabowska-vZke0fzGOOQ-unsplash.jpg" alt="">
   <div class="painting"><img src="images/sandys-medea.jpg" alt="" style="object-position:50% 20%"></div>
   <div class="veil"></div>
@@ -345,7 +366,7 @@
         </label>
         <label class="field">
           <span class="field-label">Business name</span>
-          <input class="line-input" name="biz" autocomplete="organization" placeholder="Or a working title, if it's early days">
+          <input class="line-input" name="biz" autocomplete="organization" placeholder="Or a working title">
           <span class="err" id="err-biz" hidden>A working title is fine.</span>
         </label>
 
@@ -411,19 +432,28 @@
   const screens = [...document.querySelectorAll('.screen')];
   const clamp01 = v => Math.min(1, Math.max(0, v));
   let ticking = false;
+  // A panel taller than the screen pins with a negative top, so its whole card is readable first.
+  const setStick = () => {
+    const vh = window.innerHeight;
+    screens.forEach(s => s.style.setProperty('--stick', Math.min(0, vh - s.offsetHeight) + 'px'));
+  };
   const update = () => {
     ticking = false;
-    const y = window.scrollY, vh = window.innerHeight || 1;
+    const vh = window.innerHeight || 1;
+    // --in: how far this panel's top has travelled up the screen; --out: the next panel's --in
+    const inP = screens.map((s, i) => i === 0 ? 1 : clamp01(1 - s.getBoundingClientRect().top / vh));
     screens.forEach((s, i) => {
-      const inP = i === 0 ? 1 : clamp01((y - (i - 1) * vh) / vh);
-      const outP = clamp01((y - i * vh) / vh);
-      s.style.setProperty('--in', inP.toFixed(4));
-      s.style.setProperty('--out', outP.toFixed(4));
+      s.style.setProperty('--in', inP[i].toFixed(4));
+      s.style.setProperty('--out', (i + 1 < screens.length ? inP[i + 1] : 0).toFixed(4));
     });
   };
   const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+  const onResize = () => { setStick(); onScroll(); };
   window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll);
+  window.addEventListener('resize', onResize);
+  new ResizeObserver(onResize).observe(document.body);
+  document.fonts && document.fonts.ready.then(onResize);
+  setStick();
   update();
 
   // Modal
