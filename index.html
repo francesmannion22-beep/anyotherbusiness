@@ -29,7 +29,9 @@
   a:hover { color: var(--muted); }
   input, button { font: inherit; color: inherit; }
   input::placeholder { color: #9b9a93; }
-  body { font-family: var(--sans); font-size: 17px; line-height: 1.55; }
+  body { font-family: var(--sans); font-size: 18px; line-height: 1.55; }
+  /* keeps short phrases from splitting across two lines */
+  .nb { white-space: nowrap; }
   body.modal-open { overflow: hidden; }
 
   .mono { font-family: var(--mono); letter-spacing: .06em; text-transform: uppercase; }
@@ -114,9 +116,9 @@
     font-size: clamp(44px, 5vw, 96px); line-height: 1.02; letter-spacing: -0.01em;
     color: var(--ink-strong); margin: 0; text-align: center; text-wrap: balance;
   }
-  .launch { font-size: 12px; }
+  .launch { font-size: 13px; }
   .launch-wide { position: absolute; left: clamp(20px, 2.5vw, 48px); bottom: 40px; }
-  .launch-narrow { font-size: 11px; color: var(--muted); text-align: center; }
+  .launch-narrow { font-size: 12px; color: var(--muted); text-align: center; }
   @media (max-width: 759px) { .hero-title-wrap { gap: 18px; } .hero-title { font-size: clamp(38px, 11.5vw, 56px); } }
 
   .only-narrow { display: none; }
@@ -137,7 +139,7 @@
   /* the wash sits over the painting only, so the marble either side matches the hero exactly */
   .veil { position: absolute; top: 0; bottom: 0; left: clamp(0px, 13.5%, 260px); right: clamp(0px, 10%, 200px); background: rgba(248,248,246,.24); backdrop-filter: blur(1.5px); -webkit-backdrop-filter: blur(1.5px); pointer-events: none; }
   .copy-col {
-    position: relative; width: min(600px, 100%);
+    position: relative; width: min(640px, 100%);
     display: flex; flex-direction: column; justify-content: center; gap: clamp(28px, 10vh, 140px);
     opacity: calc(min(1, var(--in) * 1.5) - var(--out) * 1.4);
     transform: translateY(calc((1 - var(--in)) * 10vh - var(--out) * 5vh));
@@ -154,10 +156,12 @@
     backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
     box-shadow: 0 20px 50px -24px rgba(0,0,0,.3);
     padding: clamp(24px, 3.2vw, 56px) clamp(22px, 3vw, 52px);
-    display: flex; flex-direction: column; gap: 18px;
-    font-size: clamp(16px, 1.15vw, 18px); line-height: 1.6; color: var(--ink-strong);
+    display: flex; flex-direction: column; gap: 1.1em;
+    font-size: clamp(18px, 1.35vw, 20px); line-height: 1.65; color: var(--ink-strong);
   }
-  .card p { margin: 0; text-wrap: pretty; }
+  /* pretty wrapping avoids one-word last lines; no hyphenation keeps words whole */
+  .card p { margin: 0; text-wrap: pretty; hyphens: manual; }
+  .card .btn { margin-top: .3em; }
   @media (max-width: 759px) {
     /* phones: painting fills the width behind the card */
     .painting, .veil { left: 0; right: 0; }
@@ -170,19 +174,19 @@
   .bar {
     position: fixed; left: 50%; bottom: clamp(12px, 2vw, 20px); transform: translateX(-50%); z-index: 20;
     width: min(calc(100% - 24px), 440px);
-    background: rgba(255,255,255,.68); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(17,17,16,.18);
-    display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 8px 8px 20px;
-    box-shadow: 0 1px 0 rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.06);
+    background: rgba(255,255,255,.62); backdrop-filter: blur(14px) saturate(1.1); -webkit-backdrop-filter: blur(14px) saturate(1.1);
+    border: 1px solid rgba(17,17,16,.07); border-radius: 999px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 7px 7px 7px 24px;
+    box-shadow: 0 10px 30px -12px rgba(0,0,0,.14);
   }
   .bar { transition: opacity .45s ease, transform .45s cubic-bezier(.22, 1, .36, 1); }
   /* hidden on the last panel, which has its own Join the waitlist button */
   .bar.is-hidden { opacity: 0; transform: translateX(-50%) translateY(24px); pointer-events: none; }
   .bar-name { font-family: var(--serif); font-style: italic; font-size: clamp(21px, 6vw, 26px); line-height: 1; color: var(--ink-strong); white-space: nowrap; }
   .bar-right { display: flex; align-items: center; gap: 14px; flex: none; }
-  .bar-free { font-size: 12px; color: var(--ink-strong); }
+  .bar-free { font-size: 13px; color: var(--ink-strong); }
   @media (max-width: 400px) {
-    .bar { padding-left: 16px; gap: 8px; }
+    .bar { padding-left: 18px; gap: 8px; }
     .bar-right { gap: 10px; }
     .bar .btn { padding: 12px 16px; }
   }
@@ -205,10 +209,10 @@
 
   form { display: flex; flex-direction: column; gap: 28px; padding-top: 28px; }
   .field { display: flex; flex-direction: column; gap: 8px; }
-  .field-label { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .field-label { font-family: var(--mono); font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
   .line-input { border: 0; border-bottom: 1px solid var(--ink); background: transparent; padding: 10px 0; font-size: 20px; outline: none; border-radius: 0; }
   .line-input:focus { border-bottom-width: 2px; padding-bottom: 9px; }
-  .err { font-size: 14px; color: var(--error); }
+  .err { font-size: 15px; color: var(--error); }
   .err[hidden] { display: none; }
   /* Values stamp */
   .values {
@@ -226,8 +230,8 @@
   .stamp-ring-text { font-family: var(--mono); font-size: 9.2px; letter-spacing: .12em; fill: #b9b8b1; transition: fill .2s; }
   .stamp-tick { fill: none; stroke: var(--accent); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 50; stroke-dashoffset: 50; }
   .values-copy { display: flex; flex-direction: column; gap: 6px; }
-  .values-text { font-size: 16px; line-height: 1.45; color: var(--ink); text-wrap: pretty; }
-  .values-hint { font-size: 13px; color: #8a8982; }
+  .values-text { font-size: 17px; line-height: 1.5; color: var(--ink); text-wrap: pretty; }
+  .values-hint { font-size: 14px; color: #8a8982; }
 
   .values:has(.values-input:checked) { border-style: solid; border-color: var(--accent); background: #fdf3ec; }
   .values-input:checked ~ .stamp { animation: stamp-down .45s cubic-bezier(.3, 1.6, .5, 1) both; transform: rotate(-12deg); }
@@ -243,14 +247,13 @@
   @media (max-width: 420px) { .values { gap: 14px; padding: 14px; } .stamp { width: 76px; height: 76px; } }
   .submit-row { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
   .submit-row .btn { padding: 16px 28px; font-size: 14px; }
-  .fine { font-size: 14px; color: #6a6a63; }
 
   .done { display: flex; flex-direction: column; gap: 20px; padding: 16px 0; }
   .done[hidden] { display: none; }
-  .badge { align-self: flex-start; background: var(--accent); border-radius: 999px; padding: 8px 14px; font-size: 12px; }
+  .badge { align-self: flex-start; background: var(--accent); border-radius: 999px; padding: 8px 14px; font-size: 13px; }
   .done h3 { font-size: clamp(36px, 4vw, 56px); font-weight: 400; line-height: 1.05; letter-spacing: -0.03em; margin: 0; }
-  .done p { margin: 0; font-size: 19px; color: #4a4a45; text-wrap: pretty; }
-  .link-btn { align-self: flex-start; background: transparent; border: 0; padding: 0; font-size: 15px; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+  .done p { margin: 0; font-size: 19px; line-height: 1.6; color: #4a4a45; text-wrap: pretty; }
+  .link-btn { align-self: flex-start; background: transparent; border: 0; padding: 0; font-size: 16px; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
@@ -302,7 +305,7 @@
   <div class="copy-col">
     <h2 id="about-h">About us</h2>
     <div class="card">
-      <p>A free community for women who are building businesses, whatever the stage, industry or size. We meet monthly, in the format of a structured board meeting: each of us shares a business update, our highlights and challenges, and any asks for the group (feedback, intros, etc).</p>
+      <p>A free community for women who are building businesses, whatever the stage, industry or size. We meet monthly, in the format of a structured board meeting: each of us shares a business update, our highlights and challenges, and any asks for the group <span class="nb">(feedback, intros, etc)</span>.</p>
       <p>Throughout the month, we're a group of people you can trust, lean on and get support from.</p>
     </div>
   </div>
@@ -330,7 +333,7 @@
   <div class="copy-col">
     <h2 id="forme-h">Is this for me?</h2>
     <div class="card">
-      <p>If you identify as a woman and you're building your own business, this is a space for you. It can be any stage, size or type (tech, physical goods, agency, etc). As long as that sounds like you, and you can commit to our values (no ego, no judgement, 100% support), I'd love you to join the waitlist.</p>
+      <p>If you identify as a woman and you're building your own business, this is a space for you. It can be any stage, size or type <span class="nb">(tech, physical</span> goods, agency, etc). As long as that sounds like you, and you can commit to our values <span class="nb">(no ego,</span> no judgement, <span class="nb">100% support</span>), I'd love you to join the waitlist.</p>
       <button type="button" class="btn" data-open>Join the waitlist</button>
     </div>
   </div>
@@ -387,7 +390,7 @@
           </span>
           <span class="values-copy">
             <span class="field-label">Our values</span>
-            <span class="values-text">I'm in: no ego, no judgement, 100% support. And what's shared in the room stays in the room.</span>
+            <span class="values-text">I'm in: <span class="nb">no ego,</span> <span class="nb">no judgement,</span> <span class="nb">100% support.</span> And what's shared in the room stays in the room.</span>
             <span class="values-hint">Tap the stamp to agree</span>
           </span>
         </label>
@@ -395,7 +398,6 @@
         </div>
         <div class="submit-row">
           <button type="submit" class="btn">Save my seat</button>
-          <span class="fine">Free. No spam. Leave any time.</span>
         </div>
       </form>
     </div>
