@@ -247,6 +247,7 @@
   @media (max-width: 420px) { .values { gap: 14px; padding: 14px; } .stamp { width: 76px; height: 76px; } }
   .submit-row { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
   .submit-row .btn { padding: 16px 28px; font-size: 14px; }
+  .submit-row .btn:disabled { opacity: .6; cursor: progress; }
 
   .done { display: flex; flex-direction: column; gap: 20px; padding: 16px 0; }
   .done[hidden] { display: none; }
@@ -398,6 +399,7 @@
         </div>
         <div class="submit-row">
           <button type="submit" class="btn">Save my seat</button>
+          <span class="err" id="err-send" hidden>That didn't go through. Please try again.</span>
         </div>
       </form>
     </div>
@@ -419,6 +421,8 @@
     meetingDate: '[date] October 2026',
     meetingMonth: 'October 2026',
     meetingFormat: '[online / in person in London]',
+    // FormSubmit emails each sign-up to this address.
+    signupUrl: 'https://formsubmit.co/ajax/francesmannion22@gmail.com',
   };
 
   document.querySelectorAll('[data-bind]').forEach(el => { el.textContent = CONFIG[el.dataset.bind]; });
@@ -501,17 +505,33 @@
   };
   form.addEventListener('input', () => { if (tried) validate(); });
   form.addEventListener('change', () => { if (tried) validate(); });
-  form.addEventListener('submit', e => {
+  const submitBtn = form.querySelector('[type=submit]');
+  const sendError = document.getElementById('err-send');
+  form.addEventListener('submit', async e => {
     e.preventDefault();
+    if (submitBtn.disabled) return;
     tried = true;
     if (!validate()) {
       const firstErr = form.querySelector('.err:not([hidden])');
       firstErr && firstErr.closest('.field').scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
-    // TODO: send the sign-up somewhere (e.g. a form service or your email list).
     const data = { name: val('name'), email: val('email'), location: val('location'), business: val('biz'), agreedToValues: true };
-    console.log('Sign-up', data);
+    submitBtn.disabled = true;
+    sendError.hidden = true;
+    try {
+      const res = await fetch(CONFIG.signupUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ ...data, _subject: `${CONFIG.name} sign-up: ${data.name}`, _template: 'table' }),
+      });
+      if (!res.ok || String((await res.json()).success) !== 'true') throw new Error('Sign-up not accepted');
+    } catch {
+      sendError.hidden = false;
+      return;
+    } finally {
+      submitBtn.disabled = false;
+    }
     document.getElementById('done-name').textContent = data.name.split(/\s+/)[0] || 'friend';
     document.getElementById('form-view').hidden = true;
     document.getElementById('done-view').hidden = false;
