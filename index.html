@@ -10,7 +10,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500&family=Geist+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --ink: #1a1a18;
@@ -23,7 +23,6 @@
     --error: #a33d1c;
     --serif: 'Instrument Serif', serif;
     --sans: 'Geist', system-ui, sans-serif;
-    --mono: 'Geist Mono', monospace;
   }
   html, body { margin: 0; background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; }
   html { scroll-behavior: smooth; }
@@ -37,12 +36,13 @@
   .nb { white-space: nowrap; }
   body.modal-open { overflow: hidden; }
 
-  .mono { font-family: var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+  /* small uppercase labels, set in Geist medium (no mono) */
+  .label { font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }
 
   .btn {
     background: var(--accent); border: 0; cursor: pointer; border-radius: 999px;
-    padding: 13px 22px; font-family: var(--mono); font-size: 13px;
-    letter-spacing: .06em; text-transform: uppercase; color: var(--ink);
+    padding: 13px 22px; font-weight: 500; font-size: 15px;
+    letter-spacing: .01em; color: var(--ink);
   }
   .btn:hover { background: var(--accent-hover); }
   .btn:focus-visible, .close:focus-visible, .link-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
@@ -155,7 +155,7 @@
     text-wrap: balance;
   }
   .card {
-    border: 1px solid rgba(17,17,16,.18); background: rgba(250,250,248,.9);
+    border: 1px solid rgba(17,17,16,.18); border-radius: 20px; background: rgba(250,250,248,.9);
     backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
     box-shadow: 0 20px 50px -24px rgba(0,0,0,.3);
     padding: clamp(24px, 3.2vw, 56px) clamp(22px, 3vw, 52px);
@@ -202,7 +202,7 @@
   }
   .overlay[hidden] { display: none; }
   .dialog {
-    position: relative; background: #fff; width: min(100%, 560px); max-height: calc(100vh - 32px); max-height: calc(100dvh - 32px); overflow: auto; overscroll-behavior: contain;
+    position: relative; background: #fff; width: min(100%, 560px); border-radius: 24px; max-height: calc(100vh - 32px); max-height: calc(100dvh - 32px); overflow: auto; overscroll-behavior: contain;
     padding: clamp(24px, 3.5vw, 44px); box-shadow: 0 24px 64px rgba(0,0,0,.12);
   }
   .close {
@@ -212,7 +212,7 @@
 
   form { display: flex; flex-direction: column; gap: 28px; padding-top: 28px; }
   .field { display: flex; flex-direction: column; gap: 8px; }
-  .field-label { font-family: var(--mono); font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .field-label { font-weight: 500; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
   .line-input { border: 0; border-bottom: 1px solid var(--ink); background: transparent; padding: 10px 0; font-size: 20px; outline: none; border-radius: 0; }
   .line-input:focus { border-bottom-width: 2px; padding-bottom: 9px; }
   .err { font-size: 15px; color: var(--error); }
@@ -220,7 +220,7 @@
   /* Values stamp */
   .values {
     display: flex; align-items: center; gap: 20px; cursor: pointer;
-    padding: 18px; border: 1px dashed #d9d7cf; border-radius: 6px; background: #f9f8f5;
+    padding: 18px; border: 1px dashed #d9d7cf; border-radius: 14px; background: #f9f8f5;
     transition: border-color .3s, background .3s;
   }
   .values:hover { border-color: #b9b8b1; }
@@ -230,7 +230,7 @@
   .stamp svg { width: 100%; height: 100%; overflow: visible; }
   .stamp-rim { fill: none; stroke: #c9c7bf; stroke-width: 2; stroke-dasharray: 3 4; transition: stroke .2s; }
   .stamp-rim.thin { stroke-width: 1.2; }
-  .stamp-ring-text { font-family: var(--mono); font-size: 9.2px; letter-spacing: .12em; fill: #b9b8b1; transition: fill .2s; }
+  .stamp-ring-text { font-weight: 500; font-size: 9.2px; letter-spacing: .12em; fill: #b9b8b1; transition: fill .2s; }
   .stamp-tick { fill: none; stroke: var(--accent); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 50; stroke-dashoffset: 50; }
   .values-copy { display: flex; flex-direction: column; gap: 6px; }
   .values-text { font-size: 17px; line-height: 1.5; color: var(--ink); text-wrap: pretty; }
@@ -249,7 +249,7 @@
   }
   @media (max-width: 420px) { .values { gap: 14px; padding: 14px; } .stamp { width: 76px; height: 76px; } }
   .submit-row { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
-  .submit-row .btn { padding: 16px 28px; font-size: 14px; }
+  .submit-row .btn { padding: 16px 28px; font-size: 16px; }
   .submit-row .btn:disabled { opacity: .6; cursor: progress; }
 
   .done { display: flex; flex-direction: column; gap: 20px; padding: 16px 0; }
@@ -270,41 +270,41 @@
 
 <!-- Hero -->
 <section class="screen hero" aria-label="Welcome">
-  <img class="texture" src="images/karolina-grabowska-vZke0fzGOOQ-unsplash.jpg" alt="">
+  <img class="texture" fetchpriority="high" src="images/karolina-grabowska-vZke0fzGOOQ-unsplash.webp" alt="">
   <div class="collage" aria-hidden="true">
    <div class="collage-inner">
     <div class="only-wide">
-      <div class="tile" style="left:35.9%;top:3.1%;width:min(11.5vw,20.1vh);aspect-ratio:297/270"><img src="images/nationaal-archief-1enAsQZiU40-unsplash.jpg" alt="" style="object-position:50% 25%"></div>
-      <div class="tile" style="left:28.8%;top:15.2%;width:min(9.24vw,16.2vh);aspect-ratio:238/169"><img src="images/daniel-j-schwarz-o7P-H-mpGa8-unsplash.jpg" alt="" style="object-position:50% 62%"></div>
-      <div class="tile" style="left:62.4%;top:11.2%;width:min(7.6vw,13.3vh);aspect-ratio:196/217"><img src="images/francesca-grima-Nyo9-_Uy5PY-unsplash.jpg" alt="" style="object-position:50% 50%"></div>
-      <div class="tile" style="left:0;top:21.2%;width:min(6.25vw,10.9vh);aspect-ratio:161/298"><img src="images/library-of-congress-Q8ZJrdVjJl8-unsplash-1.jpg" alt="" style="object-position:50% 40%"></div>
-      <div class="tile" style="left:7.26%;top:44.4%;width:min(5.24vw,9.2vh);aspect-ratio:135/112"><img src="images/valeriia-miller-1MAduYYTfD8-unsplash.jpg" alt="" style="object-position:45% 60%"></div>
-      <div class="tile" style="left:79.85%;top:28.2%;width:min(13.24vw,23.2vh);aspect-ratio:341/380"><img src="images/liam-matthews-tl_fbST9o38-unsplash.jpg" alt="" style="object-position:70% 30%"></div>
-      <div class="tile" style="left:15.8%;top:65.1%;width:min(10.5vw,18.4vh);aspect-ratio:271/246"><img src="images/allyssa-olaivar-C_dSxETlS_4-unsplash.jpg" alt="" style="object-position:40% 40%"></div>
-      <div class="tile" style="left:28.8%;top:64.6%;width:min(5.94vw,10.4vh);aspect-ratio:3/4"><img src="images/claudel-gossips.jpg" alt="" style="object-position:50% 62%"></div>
-      <div class="tile" style="left:max(70%, calc(50% + 236px));top:70.3%;width:min(15.06vw,26.4vh);aspect-ratio:388/278"><img src="images/frank-flores-0V1NDAvKvYM-unsplash.jpg" alt="" style="object-position:50% 45%"></div>
+      <div class="tile" style="left:35.9%;top:3.1%;width:min(11.5vw,20.1vh);aspect-ratio:297/270"><img src="images/nationaal-archief-1enAsQZiU40-unsplash.webp" alt="" style="object-position:50% 25%"></div>
+      <div class="tile" style="left:28.8%;top:15.2%;width:min(9.24vw,16.2vh);aspect-ratio:238/169"><img src="images/daniel-j-schwarz-o7P-H-mpGa8-unsplash.webp" alt="" style="object-position:50% 62%"></div>
+      <div class="tile" style="left:62.4%;top:11.2%;width:min(7.6vw,13.3vh);aspect-ratio:196/217"><img src="images/francesca-grima-Nyo9-_Uy5PY-unsplash.webp" alt="" style="object-position:50% 50%"></div>
+      <div class="tile" style="left:0;top:21.2%;width:min(6.25vw,10.9vh);aspect-ratio:161/298"><img src="images/library-of-congress-Q8ZJrdVjJl8-unsplash-1.webp" alt="" style="object-position:50% 40%"></div>
+      <div class="tile" style="left:7.26%;top:44.4%;width:min(5.24vw,9.2vh);aspect-ratio:135/112"><img src="images/valeriia-miller-1MAduYYTfD8-unsplash.webp" alt="" style="object-position:45% 60%"></div>
+      <div class="tile" style="left:79.85%;top:28.2%;width:min(13.24vw,23.2vh);aspect-ratio:341/380"><img src="images/liam-matthews-tl_fbST9o38-unsplash.webp" alt="" style="object-position:70% 30%"></div>
+      <div class="tile" style="left:15.8%;top:65.1%;width:min(10.5vw,18.4vh);aspect-ratio:271/246"><img src="images/allyssa-olaivar-C_dSxETlS_4-unsplash.webp" alt="" style="object-position:40% 40%"></div>
+      <div class="tile" style="left:28.8%;top:64.6%;width:min(5.94vw,10.4vh);aspect-ratio:3/4"><img src="images/claudel-gossips.webp" alt="" style="object-position:50% 62%"></div>
+      <div class="tile" style="left:max(70%, calc(50% + 236px));top:70.3%;width:min(15.06vw,26.4vh);aspect-ratio:388/278"><img src="images/frank-flores-0V1NDAvKvYM-unsplash.webp" alt="" style="object-position:50% 45%"></div>
     </div>
     <div class="only-narrow">
-      <div class="tile" style="left:5%;top:5%;width:32vw;aspect-ratio:3/4"><img src="images/nationaal-archief-1enAsQZiU40-unsplash.jpg" alt="" style="object-position:50% 30%"></div>
-      <div class="tile" style="right:5%;top:10%;width:30vw;aspect-ratio:3/4"><img src="images/liam-matthews-tl_fbST9o38-unsplash.jpg" alt="" style="object-position:70% 30%"></div>
-      <div class="tile" style="left:6%;bottom:14%;width:31vw;aspect-ratio:10/9"><img src="images/allyssa-olaivar-C_dSxETlS_4-unsplash.jpg" alt="" style="object-position:40% 40%"></div>
-      <div class="tile" style="right:4%;bottom:16%;width:36vw;aspect-ratio:3/2"><img src="images/frank-flores-0V1NDAvKvYM-unsplash.jpg" alt="" style="object-position:50% 45%"></div>
+      <div class="tile" style="left:5%;top:5%;width:32vw;aspect-ratio:3/4"><img src="images/nationaal-archief-1enAsQZiU40-unsplash.webp" alt="" style="object-position:50% 30%"></div>
+      <div class="tile" style="right:5%;top:10%;width:30vw;aspect-ratio:3/4"><img src="images/liam-matthews-tl_fbST9o38-unsplash.webp" alt="" style="object-position:70% 30%"></div>
+      <div class="tile" style="left:6%;bottom:14%;width:31vw;aspect-ratio:10/9"><img src="images/allyssa-olaivar-C_dSxETlS_4-unsplash.webp" alt="" style="object-position:40% 40%"></div>
+      <div class="tile" style="right:4%;bottom:16%;width:36vw;aspect-ratio:3/2"><img src="images/frank-flores-0V1NDAvKvYM-unsplash.webp" alt="" style="object-position:50% 45%"></div>
     </div>
    </div>
   </div>
 
   <div class="hero-title-wrap">
     <h1 class="hero-title" aria-label="An inclusive members club. For women building things."><span aria-hidden="true">An inclusive members club.<br>For women building things.</span></h1>
-    <div class="launch launch-narrow mono only-narrow">Launching <span data-bind="meetingMonth"></span></div>
+    <div class="launch launch-narrow label only-narrow">Launching <span data-bind="meetingMonth"></span></div>
   </div>
 
-  <div class="launch launch-wide mono only-wide">Launching <span data-bind="meetingMonth"></span></div>
+  <div class="launch launch-wide label only-wide">Launching <span data-bind="meetingMonth"></span></div>
 </section>
 
 <!-- 01 About us -->
 <section class="screen panel" aria-labelledby="about-h">
-  <img class="texture" decoding="async" src="images/karolina-grabowska-vZke0fzGOOQ-unsplash.jpg" alt="">
-  <div class="painting"><img loading="lazy" decoding="async" src="images/labille-guiard-pupils.jpg" alt="" style="object-position:50% 30%"></div>
+  <img class="texture" decoding="async" src="images/karolina-grabowska-vZke0fzGOOQ-unsplash.webp" alt="">
+  <div class="painting"><img loading="lazy" decoding="async" src="images/labille-guiard-pupils.webp" alt="" style="object-position:50% 30%"></div>
   <div class="veil"></div>
   <div class="copy-col">
     <h2 id="about-h">About us</h2>
@@ -317,8 +317,8 @@
 
 <!-- 02 What should I expect -->
 <section class="screen panel" aria-labelledby="expect-h">
-  <img class="texture" decoding="async" src="images/karolina-grabowska-vZke0fzGOOQ-unsplash.jpg" alt="">
-  <div class="painting"><img loading="lazy" decoding="async" src="images/villers-drawing.jpg" alt="" style="object-position:55% 35%"></div>
+  <img class="texture" decoding="async" src="images/karolina-grabowska-vZke0fzGOOQ-unsplash.webp" alt="">
+  <div class="painting"><img loading="lazy" decoding="async" src="images/villers-drawing.webp" alt="" style="object-position:55% 35%"></div>
   <div class="veil"></div>
   <div class="copy-col">
     <h2 id="expect-h">What should I expect?</h2>
@@ -331,13 +331,13 @@
 
 <!-- 03 Is this for me -->
 <section class="screen panel" aria-labelledby="forme-h">
-  <img class="texture" decoding="async" src="images/karolina-grabowska-vZke0fzGOOQ-unsplash.jpg" alt="">
-  <div class="painting"><img loading="lazy" decoding="async" src="images/garden-scene.jpg" alt="" style="object-position:40% 40%"></div>
+  <img class="texture" decoding="async" src="images/karolina-grabowska-vZke0fzGOOQ-unsplash.webp" alt="">
+  <div class="painting"><img loading="lazy" decoding="async" src="images/garden-scene.webp" alt="" style="object-position:40% 40%"></div>
   <div class="veil"></div>
   <div class="copy-col">
     <h2 id="forme-h">Is this for me?</h2>
     <div class="card">
-      <p>If you identify as a woman and you're building your own business, this is a space for you. It can be any stage, size or type <span class="nb">(tech, NGO,</span> physical goods, agency, etc). As long as that sounds like you, and you can commit to our values <span class="nb">(no ego,</span> no judgement, <span class="nb">100% support</span>), I'd love you to join the waitlist.</p>
+      <p>If you identify as a woman and you're building your own business, this is a space for you. It can be any stage, size or type <span class="nb">(tech, NGO,</span> physical goods, agency, etc). As long as that sounds like you, and you can commit to our values <span class="nb">(no ego,</span> no judgement, <span class="nb">100% support</span>), we'd love you to join the waitlist.</p>
       <button type="button" class="btn" data-open>Join the waitlist</button>
     </div>
   </div>
@@ -347,7 +347,7 @@
 <div class="bar">
   <span class="bar-name" data-bind="name"></span>
   <div class="bar-right">
-    <span class="bar-free mono">Free</span>
+    <span class="bar-free label">Free</span>
     <button type="button" class="btn" data-open>Sign up</button>
   </div>
 </div>
@@ -388,7 +388,7 @@
               <defs><path id="ring" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/></defs>
               <circle cx="60" cy="60" r="56" class="stamp-rim"/>
               <circle cx="60" cy="60" r="33" class="stamp-rim thin"/>
-              <text class="stamp-ring-text"><textPath href="#ring" startOffset="0">NO EGO · NO JUDGEMENT · 100% SUPPORT ·</textPath></text>
+              <text class="stamp-ring-text"><textPath href="#ring" startOffset="0" textLength="272" lengthAdjust="spacing">NO EGO · NO JUDGEMENT · 100% SUPPORT ·</textPath></text>
               <path class="stamp-tick" d="M46 61 l10 10 l19 -22"/>
             </svg>
           </span>
