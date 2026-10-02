@@ -112,16 +112,11 @@
     45%  { opacity: 1; color: #b9b8b1; filter: blur(1px); }
     100% { opacity: 1; color: var(--ink-strong); filter: blur(0); transform: none; }
   }
-  .launch { animation: fade-in 1.2s 2.2s ease both; }
-  @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
   .hero-title {
     font-family: var(--serif); font-style: normal; font-weight: 400;
     font-size: clamp(44px, 5vw, 96px); line-height: 1.02; letter-spacing: -0.01em;
     color: var(--ink-strong); margin: 0; text-align: center; text-wrap: balance;
   }
-  .launch { font-size: 13px; }
-  .launch-wide { position: absolute; left: clamp(20px, 2.5vw, 48px); bottom: 40px; }
-  .launch-narrow { font-size: 12px; color: var(--muted); text-align: center; }
   @media (max-width: 759px) { .hero-title-wrap { gap: 18px; } .hero-title { font-size: clamp(38px, 11.5vw, 56px); } }
 
   .only-narrow { display: none; }
@@ -295,10 +290,8 @@
 
   <div class="hero-title-wrap">
     <h1 class="hero-title" aria-label="An inclusive members club. For women building things."><span aria-hidden="true">An inclusive members club.<br>For women building things.</span></h1>
-    <div class="launch launch-narrow label only-narrow">Launching <span data-bind="meetingMonth"></span></div>
   </div>
 
-  <div class="launch launch-wide label only-wide">Launching <span data-bind="meetingMonth"></span></div>
 </section>
 
 <!-- 01 About us -->
@@ -419,7 +412,6 @@
   const CONFIG = {
     name: 'Any Other Business',
     meetingDate: '[date] October 2026',
-    meetingMonth: 'October 2026',
     meetingFormat: '[online / in person in London]',
     // FormSubmit emails each sign-up to this address.
     signupUrl: 'https://formsubmit.co/ajax/francesmannion22@gmail.com',
