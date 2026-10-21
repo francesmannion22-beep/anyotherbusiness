@@ -56,8 +56,10 @@
   .screen.panel {
     height: auto; min-height: 100vh; min-height: 100dvh; top: var(--stick, 0px);
     display: flex; align-items: center; justify-content: flex-end;
-    padding: clamp(56px, 10vh, 120px) clamp(20px, 17%, 320px) clamp(112px, 16vh, 150px) 20px;
+    padding: clamp(48px, 7vh, 120px) clamp(20px, 17%, 320px) clamp(104px, 13vh, 150px) 20px;
   }
+  /* extra scroll room after each panel holds it still for reading before the next one slides over */
+  .screen.panel:not(:last-of-type) { margin-bottom: 60vh; }
   .screen > .texture {
     position: fixed; inset: 0; width: 100vw; height: 100vh; height: 100lvh; object-fit: cover; display: block;
     opacity: .22; filter: grayscale(1) brightness(1.15);
@@ -138,14 +140,14 @@
   .veil { position: absolute; top: 0; bottom: 0; left: clamp(0px, 13.5%, 260px); right: clamp(0px, 10%, 200px); background: rgba(248,248,246,.45); backdrop-filter: blur(1.5px); -webkit-backdrop-filter: blur(1.5px); pointer-events: none; }
   .copy-col {
     position: relative; width: min(880px, 100%);
-    display: flex; flex-direction: column; justify-content: center; gap: clamp(28px, 10vh, 140px);
-    opacity: calc(min(1, var(--in) * 1.5) - var(--out) * 1.4);
+    display: flex; flex-direction: column; justify-content: center; gap: clamp(24px, 5vh, 72px);
+    opacity: calc(min(1, var(--in) * 1.5) - var(--out) * 1.1);
     transform: translateY(calc((1 - var(--in)) * 10vh - var(--out) * 5vh));
     will-change: opacity, transform;
   }
   .copy-col h2 {
     font-family: var(--serif); font-style: normal; font-weight: 400;
-    font-size: clamp(42px, 6.4vw, 112px); line-height: 1; letter-spacing: -0.01em; margin: 0;
+    font-size: clamp(40px, 4.8vw, 88px); line-height: 1; letter-spacing: -0.01em; margin: 0;
     color: var(--paper); text-shadow: 0 1px 16px rgba(0,0,0,.45), 0 0 2px rgba(0,0,0,.25);
     text-wrap: balance;
   }
@@ -159,7 +161,7 @@
   }
   /* pretty wrapping avoids one-word last lines; no hyphenation keeps words whole */
   .card p { margin: 0; text-wrap: pretty; hyphens: manual; }
-  .card .btn { margin-top: .3em; }
+  .card .btn { margin-top: .3em; padding: 16px 30px; font-size: 18px; }
   @media (max-width: 759px) {
     /* phones: painting fills the width behind the card */
     .painting, .veil { left: 0; right: 0; }
@@ -318,9 +320,9 @@
   <div class="copy-col">
     <h2 id="expect-h">What should I expect?</h2>
     <div class="card">
-      <p>Each month, come ready to share an update on what you're working on. We'll give you a simple structure to follow, based on a board meeting.</p>
+      <p>Each month, come ready to share an update on what you're working on. We'll give you a simple structure to follow.</p>
       <p>It keeps us accountable, helps us learn from each other and means we always have support.</p>
-      <p>Most meetings are online, with in-person meetups when we can make them happen. Between meetings, we stay connected, so you can ask for help, big or small, anytime.</p>
+      <p>Between meetings, we stay connected, so you can ask for help, big or small, anytime.</p>
       <p style="font-weight:500">Everything shared is confidential. When you join, you commit to <span class="nb">no ego</span> and <span class="nb">no judgement,</span> and to always support the others in the group.</p>
     </div>
   </div>
@@ -407,7 +409,7 @@
     </div>
 
     <div class="done" id="done-view" hidden>
-      <p>You're in, <span id="done-name"></span>. Thanks for joining. I'll email you shortly with the details of the first meeting and your invite to our Slack community.</p>
+      <p>You're in, <span id="done-name"></span>. Thanks for joining. We'll email you shortly with the details of the first meeting and your invite to our Slack community.</p>
       <button type="button" class="link-btn" id="reset">Add someone else</button>
     </div>
   </div>
