@@ -30,7 +30,7 @@
   a { color: var(--ink); text-decoration-thickness: 1px; text-underline-offset: 3px; }
   a:hover { color: var(--muted); }
   input, button { font: inherit; color: inherit; }
-  input::placeholder { color: #9b9a93; }
+  input::placeholder { color: #75746e; }
   body { font-family: var(--sans); font-size: 18px; line-height: 1.55; }
   /* keeps short phrases from splitting across two lines */
   .nb { white-space: nowrap; }
@@ -151,6 +151,8 @@
     color: var(--paper); text-shadow: 0 1px 16px rgba(0,0,0,.45), 0 0 2px rgba(0,0,0,.25);
     text-wrap: balance;
   }
+  /* light textures take dark headings so they keep enough contrast */
+  .panel-light .copy-col h2 { color: var(--ink-strong); text-shadow: none; }
   .card {
     border: 1px solid rgba(17,17,16,.12); border-radius: 20px; background: rgba(240,238,232,.8);
     backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
@@ -231,7 +233,7 @@
   .stamp-tick { fill: none; stroke: var(--accent); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 50; stroke-dashoffset: 50; }
   .values-copy { display: flex; flex-direction: column; gap: 6px; }
   .values-text { font-size: 17px; line-height: 1.5; color: var(--ink); text-wrap: pretty; }
-  .values-hint { font-size: 14px; color: #8a8982; }
+  .values-hint { font-size: 14px; color: #6b6a64; }
 
   .values:has(.values-input:checked) { border-style: solid; border-color: var(--accent); background: #f3f2ee; }
   .values-input:checked ~ .stamp { animation: stamp-down .45s cubic-bezier(.3, 1.6, .5, 1) both; transform: rotate(-12deg); }
@@ -253,6 +255,7 @@
   .done[hidden] { display: none; }
   .badge { align-self: flex-start; background: var(--accent); border-radius: 999px; padding: 8px 14px; font-size: 13px; }
   .done h3 { font-size: clamp(36px, 4vw, 56px); font-weight: 400; line-height: 1.05; letter-spacing: -0.03em; margin: 0; }
+  .done p:focus { outline: none; }
   .done p { margin: 0; font-size: 19px; line-height: 1.6; color: #4a4a45; text-wrap: pretty; }
   .link-btn { align-self: flex-start; background: transparent; border: 0; padding: 0; font-size: 16px; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 
@@ -265,6 +268,7 @@
 </head>
 <body>
 
+<main>
 <!-- Hero -->
 <section class="screen hero" aria-label="Welcome">
   <img class="texture" fetchpriority="high" src="images/karolina-grabowska-vZke0fzGOOQ-unsplash.webp" alt="">
@@ -297,7 +301,7 @@
 </section>
 
 <!-- 01 About us -->
-<section class="screen panel" aria-labelledby="about-h">
+<section class="screen panel panel-light" aria-labelledby="about-h">
   <img class="texture" decoding="async" src="images/karolina-grabowska-vZke0fzGOOQ-unsplash.webp" alt="">
   <div class="painting"><img loading="lazy" decoding="async" src="images/texture-sage-water.jpg" alt="" style="object-position:50% 50%;filter:brightness(.72) saturate(.9)"></div>
   <div class="veil"></div>
@@ -329,7 +333,7 @@
 </section>
 
 <!-- 03 Is this for me -->
-<section class="screen panel" aria-labelledby="forme-h">
+<section class="screen panel panel-light" aria-labelledby="forme-h">
   <img class="texture" decoding="async" src="images/karolina-grabowska-vZke0fzGOOQ-unsplash.webp" alt="">
   <div class="painting"><img loading="lazy" decoding="async" src="images/texture-cream-marble.jpg" alt="" style="object-position:50% 50%;filter:brightness(.74) saturate(.9)"></div>
   <div class="veil"></div>
@@ -343,6 +347,7 @@
     </div>
   </div>
 </section>
+</main>
 
 <!-- Floating bar -->
 <div class="bar">
@@ -362,28 +367,28 @@
       <form id="signup" novalidate>
         <label class="field">
           <span class="field-label">Name</span>
-          <input class="line-input" name="name" autocomplete="name" placeholder="Your name">
+          <input class="line-input" name="name" aria-required="true" autocomplete="name" placeholder="Your name">
           <span class="err" id="err-name" hidden>Tell us what to call you.</span>
         </label>
         <label class="field">
           <span class="field-label">Email</span>
-          <input class="line-input" type="email" name="email" autocomplete="email" placeholder="you@example.com">
+          <input class="line-input" type="email" name="email" aria-required="true" autocomplete="email" placeholder="you@example.com">
           <span class="err" id="err-email" hidden>That email doesn't look quite right.</span>
         </label>
         <label class="field">
           <span class="field-label">Where are you based?</span>
-          <input class="line-input" name="location" autocomplete="address-level2" placeholder="e.g. London">
+          <input class="line-input" name="location" aria-required="true" autocomplete="address-level2" placeholder="e.g. London">
           <span class="err" id="err-location" hidden>Just a city or area is fine.</span>
         </label>
         <label class="field">
           <span class="field-label">Business name</span>
-          <input class="line-input" name="biz" autocomplete="organization" placeholder="Or a working title">
+          <input class="line-input" name="biz" aria-required="true" autocomplete="organization" placeholder="Or a working title">
           <span class="err" id="err-biz" hidden>A working title is fine.</span>
         </label>
 
         <div class="field">
         <label class="values">
-          <input type="checkbox" name="values" class="values-input">
+          <input type="checkbox" name="values" class="values-input" aria-required="true">
           <span class="stamp" aria-hidden="true">
             <svg viewBox="0 0 120 120">
               <defs><path id="ring" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/></defs>
@@ -403,13 +408,13 @@
         </div>
         <div class="submit-row">
           <button type="submit" class="btn">Save my seat</button>
-          <span class="err" id="err-send" hidden>That didn't go through. Please try again.</span>
+          <span class="err" id="err-send" role="alert" hidden>That didn't go through. Please try again.</span>
         </div>
       </form>
     </div>
 
     <div class="done" id="done-view" hidden>
-      <p>You're in, <span id="done-name"></span>. Thanks for joining. We'll email you shortly with the details of the first meeting and your invite to our Slack community.</p>
+      <p tabindex="-1">You're in, <span id="done-name"></span>. Thanks for joining. We'll email you shortly with the details of the first meeting and your invite to our Slack community.</p>
       <button type="button" class="link-btn" id="reset">Add someone else</button>
     </div>
   </div>
@@ -474,12 +479,14 @@
     lastFocus = document.activeElement;
     overlay.hidden = false;
     document.body.classList.add('modal-open');
+    document.querySelectorAll('main, .bar').forEach(el => { el.inert = true; });
     const first = overlay.querySelector('#form-view:not([hidden]) input, #done-view:not([hidden]) button');
     (first || overlay.querySelector('.close')).focus();
   };
   const close = () => {
     overlay.hidden = true;
     document.body.classList.remove('modal-open');
+    document.querySelectorAll('main, .bar').forEach(el => { el.inert = false; });
     lastFocus && lastFocus.focus();
   };
   document.querySelectorAll('[data-open]').forEach(b => b.addEventListener('click', open));
@@ -500,7 +507,10 @@
       biz: val('biz').length > 0,
       values: field('values').checked,
     };
-    Object.entries(checks).forEach(([k, ok]) => { document.getElementById('err-' + k).hidden = !(tried && !ok); });
+    Object.entries(checks).forEach(([k, ok]) => {
+      document.getElementById('err-' + k).hidden = !(tried && !ok);
+      field(k).setAttribute('aria-invalid', String(tried && !ok));
+    });
     return Object.values(checks).every(Boolean);
   };
   form.addEventListener('input', () => { if (tried) validate(); });
@@ -535,6 +545,7 @@
     document.getElementById('done-name').textContent = data.name.split(/\s+/)[0] || 'friend';
     document.getElementById('form-view').hidden = true;
     document.getElementById('done-view').hidden = false;
+    document.querySelector('#done-view p').focus();
   });
   document.getElementById('reset').addEventListener('click', () => {
     form.reset(); tried = false; validate();
