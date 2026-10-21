@@ -164,6 +164,12 @@
     font-size: clamp(17px, 1.3vw, 20px); line-height: 1.6; color: #2b2b28;
   }
   /* pretty wrapping avoids one-word last lines; no hyphenation keeps words whole */
+  /* about-me card: photo beside the copy, stacked on phones */
+  .card-me { flex-direction: row; align-items: center; gap: clamp(20px, 3vw, 36px); }
+  .me-photo { flex: none; width: clamp(120px, 13vw, 180px); aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 40%; border-radius: 14px; display: block; }
+  .me-copy { display: flex; flex-direction: column; gap: .8em; }
+  .card .me-name { margin: 0; font-family: var(--serif); font-weight: 400; font-size: 1.6em; line-height: 1.1; color: var(--ink-strong); text-shadow: none; }
+  @media (max-width: 559px) { .card-me { flex-direction: column; align-items: flex-start; } .me-photo { width: 150px; } }
   .card p { margin: 0; text-wrap: pretty; hyphens: manual; }
   .card .btn { margin-top: .3em; padding: 16px 30px; font-size: 18px; }
   @media (max-width: 759px) {
@@ -184,7 +190,7 @@
     box-shadow: 0 10px 30px -12px rgba(0,0,0,.14);
   }
   .bar { transition: opacity .45s ease, transform .45s cubic-bezier(.22, 1, .36, 1); }
-  /* hidden on the last panel, which has its own Join us button */
+  /* hidden while the Is this for me? panel, which has its own Join us button, is on screen */
   .bar.is-hidden { opacity: 0; transform: translateX(-50%) translateY(24px); pointer-events: none; }
   .bar-name { font-family: var(--serif); font-style: italic; font-size: clamp(21px, 6vw, 26px); line-height: 1; color: var(--ink-strong); white-space: nowrap; }
   .bar-right { display: flex; align-items: center; gap: 14px; flex: none; }
@@ -344,8 +350,24 @@
     <div class="card">
       <p>If you identify as a woman and you're building your own business, this space is for you.</p>
       <p>Any stage, size or type: tech, NGO, physical goods, agency and more.</p>
-      <p>If you can commit to our values <span class="nb">(no ego,</span> no judgement, <span class="nb">100% support),</span> we'd love you to join us. It's free.</p>
+      <p>If you can commit to our values <span class="nb">(no ego,</span> no judgement, <span class="nb">100% support),</span> we'd love you to join us.</p>
       <button type="button" class="btn" data-open>Join us</button>
+    </div>
+  </div>
+</section>
+<!-- 04 Who's behind this -->
+<section class="screen panel panel-light" aria-labelledby="me-h">
+  <img class="texture" decoding="async" src="images/karolina-grabowska-vZke0fzGOOQ-unsplash.webp" alt="">
+  <div class="painting"><img loading="lazy" decoding="async" src="images/texture-beige-marble.jpg" alt="" style="object-position:50% 50%;filter:brightness(.8) saturate(.85)"></div>
+  <div class="veil"></div>
+  <div class="copy-col">
+    <div class="card card-me">
+      <img class="me-photo" loading="lazy" decoding="async" src="images/frances.jpg" alt="Frances, smiling and looking to the side">
+      <div class="me-copy">
+        <h2 class="me-name" id="me-h">Hi, I'm Frances.</h2>
+        <p>Co-founder of The Dx, where we build voice agents for the long tail of customer accounts.</p>
+        <p>New(ish) mum. Born in Auckland, New Zealand, and currently in London.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -447,6 +469,7 @@
   // Scroll-linked zoom: each panel gets --in as it slides up, --out as the next one covers it.
   const screens = [...document.querySelectorAll('.screen')];
   const bar = document.querySelector('.bar');
+  const ctaIdx = screens.findIndex(s => s.querySelector('.card .btn'));
   const clamp01 = v => Math.min(1, Math.max(0, v));
   let ticking = false;
   // A panel taller than the screen pins with a negative top, so its whole card is readable first.
@@ -459,7 +482,7 @@
     const vh = window.innerHeight || 1;
     // --in: how far this panel's top has travelled up the screen; --out: the next panel's --in
     const inP = screens.map((s, i) => i === 0 ? 1 : clamp01(1 - s.getBoundingClientRect().top / vh));
-    bar.classList.toggle('is-hidden', inP[inP.length - 1] > .6);
+    bar.classList.toggle('is-hidden', inP[ctaIdx] > .6 && (inP[ctaIdx + 1] ?? 0) < .4);
     screens.forEach((s, i) => {
       s.style.setProperty('--in', inP[i].toFixed(4));
       s.style.setProperty('--out', (i + 1 < screens.length ? inP[i + 1] : 0).toFixed(4));
