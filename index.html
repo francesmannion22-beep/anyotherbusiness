@@ -153,6 +153,8 @@
   }
   /* light textures take dark headings so they keep enough contrast */
   .panel-light .copy-col h2 { color: var(--ink-strong); text-shadow: none; }
+  /* the dark texture keeps a lighter wash so its white heading stands out */
+  .panel:not(.panel-light) .veil { background: rgba(248,248,246,.18); }
   .card {
     border: 1px solid rgba(17,17,16,.12); border-radius: 20px; background: rgba(240,238,232,.8);
     backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
@@ -300,13 +302,13 @@
 
 </section>
 
-<!-- 01 About us -->
+<!-- 01 What is this -->
 <section class="screen panel panel-light" aria-labelledby="about-h">
   <img class="texture" decoding="async" src="images/karolina-grabowska-vZke0fzGOOQ-unsplash.webp" alt="">
   <div class="painting"><img loading="lazy" decoding="async" src="images/texture-sage-water.jpg" alt="" style="object-position:50% 50%;filter:brightness(.72) saturate(.9)"></div>
   <div class="veil"></div>
   <div class="copy-col">
-    <h2 id="about-h">About us</h2>
+    <h2 id="about-h">What is this?</h2>
     <div class="card">
       <p>A free community for women building businesses, whatever the stage, industry or size.</p>
       <p>We meet monthly, online and in person whenever we can.</p>
@@ -319,7 +321,7 @@
 <!-- 02 What should I expect -->
 <section class="screen panel" aria-labelledby="expect-h">
   <img class="texture" decoding="async" src="images/karolina-grabowska-vZke0fzGOOQ-unsplash.webp" alt="">
-  <div class="painting"><img loading="lazy" decoding="async" src="images/texture-black-stone.jpg" alt="" style="object-position:50% 50%;filter:brightness(1.1)"></div>
+  <div class="painting"><img loading="lazy" decoding="async" src="images/texture-black-stone.jpg" alt="" style="object-position:50% 50%;filter:brightness(.8)"></div>
   <div class="veil"></div>
   <div class="copy-col">
     <h2 id="expect-h">What should I expect?</h2>
