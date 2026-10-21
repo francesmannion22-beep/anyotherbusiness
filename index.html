@@ -178,7 +178,7 @@
     box-shadow: 0 10px 30px -12px rgba(0,0,0,.14);
   }
   .bar { transition: opacity .45s ease, transform .45s cubic-bezier(.22, 1, .36, 1); }
-  /* hidden on the last panel, which has its own Sign up button */
+  /* hidden on the last panel, which has its own Join us button */
   .bar.is-hidden { opacity: 0; transform: translateX(-50%) translateY(24px); pointer-events: none; }
   .bar-name { font-family: var(--serif); font-style: italic; font-size: clamp(21px, 6vw, 26px); line-height: 1; color: var(--ink-strong); white-space: nowrap; }
   .bar-right { display: flex; align-items: center; gap: 14px; flex: none; }
@@ -297,7 +297,7 @@
 <!-- 01 About us -->
 <section class="screen panel" aria-labelledby="about-h">
   <img class="texture" decoding="async" src="images/karolina-grabowska-vZke0fzGOOQ-unsplash.webp" alt="">
-  <div class="painting"><img loading="lazy" decoding="async" src="images/labille-guiard-pupils.webp" alt="" style="object-position:50% 30%"></div>
+  <div class="painting"><img loading="lazy" decoding="async" src="images/texture-sage-water.jpg" alt="" style="object-position:50% 50%;filter:brightness(.72) saturate(.9)"></div>
   <div class="veil"></div>
   <div class="copy-col">
     <h2 id="about-h">About us</h2>
@@ -311,7 +311,7 @@
 <!-- 02 What should I expect -->
 <section class="screen panel" aria-labelledby="expect-h">
   <img class="texture" decoding="async" src="images/karolina-grabowska-vZke0fzGOOQ-unsplash.webp" alt="">
-  <div class="painting"><img loading="lazy" decoding="async" src="images/texture-teal-marble.jpg" alt="" style="object-position:50% 50%"></div>
+  <div class="painting"><img loading="lazy" decoding="async" src="images/texture-black-stone.jpg" alt="" style="object-position:50% 50%;filter:brightness(1.1)"></div>
   <div class="veil"></div>
   <div class="copy-col">
     <h2 id="expect-h">What should I expect?</h2>
@@ -325,13 +325,13 @@
 <!-- 03 Is this for me -->
 <section class="screen panel" aria-labelledby="forme-h">
   <img class="texture" decoding="async" src="images/karolina-grabowska-vZke0fzGOOQ-unsplash.webp" alt="">
-  <div class="painting"><img loading="lazy" decoding="async" src="images/texture-layered-stone.jpg" alt="" style="object-position:50% 50%"></div>
+  <div class="painting"><img loading="lazy" decoding="async" src="images/texture-cream-marble.jpg" alt="" style="object-position:50% 50%;filter:brightness(.74) saturate(.9)"></div>
   <div class="veil"></div>
   <div class="copy-col">
     <h2 id="forme-h">Is this for me?</h2>
     <div class="card">
-      <p>If you identify as a woman and you're building your own business, this is a space for you. It can be any stage, size or type <span class="nb">(tech, NGO,</span> physical goods, agency, etc). As long as that sounds like you, and you can commit to our values <span class="nb">(no ego,</span> no judgement, <span class="nb">100% support</span>), we'd love you to sign up. It's free to join.</p>
-      <button type="button" class="btn" data-open>Sign up</button>
+      <p>If you identify as a woman and you're building your own business, this is a space for you. It can be any stage, size or type <span class="nb">(tech, NGO,</span> physical goods, agency, etc). As long as that sounds like you, and you can commit to our values <span class="nb">(no ego,</span> no judgement, <span class="nb">100% support</span>), we'd love you to join us. It's free.</p>
+      <button type="button" class="btn" data-open>Join us</button>
     </div>
   </div>
 </section>
@@ -341,13 +341,13 @@
   <span class="bar-name" data-bind="name"></span>
   <div class="bar-right">
     <span class="bar-free label">Free</span>
-    <button type="button" class="btn" data-open>Sign up</button>
+    <button type="button" class="btn" data-open>Join us</button>
   </div>
 </div>
 
 <!-- Sign-up modal -->
 <div class="overlay" id="overlay" hidden>
-  <div class="dialog" role="dialog" aria-modal="true" aria-label="Sign up">
+  <div class="dialog" role="dialog" aria-modal="true" aria-label="Join us">
     <button type="button" class="close" data-close aria-label="Close">✕</button>
 
     <div id="form-view">
