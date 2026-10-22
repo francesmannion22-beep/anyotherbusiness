@@ -241,24 +241,43 @@
   .line-input:focus { border-bottom-width: 2px; padding-bottom: 9px; }
   .err { font-size: 15px; color: var(--error); }
   .err[hidden] { display: none; }
-  /* Values agreement */
+  /* Values stamp */
   .values {
-    display: flex; align-items: flex-start; gap: 14px; cursor: pointer;
+    display: flex; align-items: center; gap: 20px; cursor: pointer;
     padding: 18px; border: 1px dashed #b9b8b1; border-radius: 14px; background: #f9f8f5;
     transition: border-color .3s, background .3s;
   }
   .values:hover { border-color: #b9b8b1; }
-  /* missed the tick: make the box itself say so */
+  /* missed the stamp: make the box itself say so */
   .field:has(#err-values:not([hidden])) .values { border-style: solid; border-color: var(--error); }
-  .values-input { flex: none; width: 24px; height: 24px; margin: 2px 0 0; accent-color: var(--accent); cursor: pointer; }
-  .values-input:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .values-input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+  .values-input:focus-visible ~ .stamp { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 50%; }
+  .stamp { flex: none; width: 92px; height: 92px; display: block; transform: rotate(-4deg); transition: transform .3s; }
+  .stamp svg { width: 100%; height: 100%; overflow: visible; }
+  .stamp-rim { fill: none; stroke: #6b6a64; stroke-width: 2.5; stroke-dasharray: 6 4; transition: stroke .2s; }
+  .stamp-rim.thin { stroke-width: 1.2; }
+  .stamp-ring-text { font-weight: 500; font-size: 9.2px; letter-spacing: .12em; fill: #6b6a64; transition: fill .2s; }
+  .stamp-tick { fill: none; stroke: var(--accent); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 50; stroke-dashoffset: 50; }
   .values-copy { display: flex; flex-direction: column; gap: 6px; }
   .values-text { font-size: 17px; line-height: 1.5; color: var(--ink); text-wrap: pretty; }
-  .values-hint { font-size: 14px; color: #6b6a64; }
+  .values-hint { font-size: 15px; font-weight: 500; color: var(--ink-strong); }
+  /* a gentle pulse until it's stamped, so it reads as something to tap */
+  .values-input:not(:checked) ~ .stamp { animation: stamp-nudge 2.4s ease-in-out 1s infinite; }
+  .values:hover .values-input:not(:checked) ~ .stamp { animation: none; transform: rotate(-8deg) scale(1.05); }
+  @keyframes stamp-nudge { 0%, 70%, 100% { transform: rotate(-4deg) scale(1); } 80% { transform: rotate(-8deg) scale(1.08); } 90% { transform: rotate(-2deg) scale(1.02); } }
 
   .values:has(.values-input:checked) { border-style: solid; border-color: var(--accent); background: #f3f2ee; }
+  .values-input:checked ~ .stamp { animation: stamp-down .45s cubic-bezier(.3, 1.6, .5, 1) both; transform: rotate(-12deg); }
+  .values-input:checked ~ .stamp .stamp-rim { stroke: var(--accent); stroke-dasharray: none; }
+  .values-input:checked ~ .stamp .stamp-ring-text { fill: var(--accent); }
+  .values-input:checked ~ .stamp .stamp-tick { transition: stroke-dashoffset .35s .2s ease-out; stroke-dashoffset: 0; }
   .values-input:checked ~ .values-copy .values-hint { visibility: hidden; }
-  @media (max-width: 420px) { .values { gap: 14px; padding: 14px; } }
+  @keyframes stamp-down {
+    0%   { transform: rotate(-4deg) scale(1.35); opacity: .4; }
+    60%  { transform: rotate(-13deg) scale(.94); opacity: 1; }
+    100% { transform: rotate(-12deg) scale(1); }
+  }
+  @media (max-width: 420px) { .values { gap: 14px; padding: 14px; } .stamp { width: 76px; height: 76px; } }
   .submit-row { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
   .submit-row .btn { padding: 16px 28px; font-size: 16px; }
   .submit-row .btn:disabled { opacity: .6; cursor: progress; }
@@ -425,13 +444,22 @@
         <div class="field">
         <label class="values">
           <input type="checkbox" name="values" class="values-input" aria-required="true">
+          <span class="stamp" aria-hidden="true">
+            <svg viewBox="0 0 120 120">
+              <defs><path id="ring" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/></defs>
+              <circle cx="60" cy="60" r="56" class="stamp-rim"/>
+              <circle cx="60" cy="60" r="33" class="stamp-rim thin"/>
+              <text class="stamp-ring-text"><textPath href="#ring" startOffset="0" textLength="272" lengthAdjust="spacing">NO EGO · NO JUDGEMENT · 100% SUPPORT ·</textPath></text>
+              <path class="stamp-tick" d="M46 61 l10 10 l19 -22"/>
+            </svg>
+          </span>
           <span class="values-copy">
             <span class="field-label">Our values</span>
             <span class="values-text"><span class="nb">No ego,</span> <span class="nb">no judgement,</span> <span class="nb">100% support.</span> And what's shared in the room stays in the room.</span>
-            <span class="values-hint">Tick the box to agree</span>
+            <span class="values-hint">← Tap the stamp to agree</span>
           </span>
         </label>
-        <span class="err" id="err-values" hidden>Tick the box to agree to our values, then press Join us.</span>
+        <span class="err" id="err-values" hidden>Tap the stamp to agree to our values, then press Join us.</span>
         </div>
         <div class="submit-row">
           <button type="submit" class="btn">Join us</button>
