@@ -540,7 +540,9 @@
     document.querySelectorAll('main, .bar').forEach(el => { el.inert = false; });
     lastFocus && lastFocus.focus();
   };
-  document.querySelectorAll('[data-open]').forEach(b => b.addEventListener('click', open));
+  // GoatCounter events: how many open the form, and how many finish signing up
+  const track = (path, title) => { window.goatcounter && window.goatcounter.count && window.goatcounter.count({ path, title, event: true }); };
+  document.querySelectorAll('[data-open]').forEach(b => b.addEventListener('click', () => { track('join-us-click', 'Join us clicked'); open(); }));
   document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', close));
   overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && !overlay.hidden) close(); });
@@ -596,6 +598,7 @@
     document.getElementById('done-name').textContent = data.name.split(/\s+/)[0] || 'friend';
     document.getElementById('form-view').hidden = true;
     document.getElementById('done-view').hidden = false;
+    track('signup-complete', 'Sign-up completed');
     document.querySelector('#done-view p').focus();
   });
   document.getElementById('reset').addEventListener('click', () => {
@@ -605,5 +608,6 @@
     field('name').focus();
   });
 </script>
+<script data-goatcounter="https://anyotherbusines.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>
