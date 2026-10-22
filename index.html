@@ -482,8 +482,9 @@
     name: 'Any Other Business',
     meetingDate: '[date] October 2026',
     meetingFormat: '[online / in person in London]',
-    // FormSubmit emails each sign-up to this address.
-    signupUrl: 'https://formsubmit.co/ajax/francesmannion22@gmail.com',
+    // Web3Forms emails each sign-up to the inbox this key was created for. The key is public by design.
+    signupUrl: 'https://api.web3forms.com/submit',
+    signupKey: '385166ab-7404-424e-bea5-e9c1cea701ac',
   };
 
   document.querySelectorAll('[data-bind]').forEach(el => { el.textContent = CONFIG[el.dataset.bind]; });
@@ -588,20 +589,19 @@
     const data = { name: val('name'), email: val('email'), location: val('location'), business: val('biz'), agreedToValues: 'yes' };
     submitBtn.disabled = true;
     sendError.hidden = true;
-    // FormSubmit can take several seconds, so confirm straight away and send in the background
+    // confirm straight away and send in the background, so a slow reply never leaves people waiting
     showDone(data.name);
     try {
       // url-encoded keeps this a simple request: no CORS preflight round trip
       const res = await fetch(CONFIG.signupUrl, {
         method: 'POST',
         headers: { Accept: 'application/json' },
-        body: new URLSearchParams({ ...data, _subject: `${CONFIG.name} sign-up: ${data.name}`, _template: 'table' }),
+        body: new URLSearchParams({ ...data, access_key: CONFIG.signupKey, subject: `${CONFIG.name} sign-up: ${data.name}`, from_name: CONFIG.name }),
         keepalive: true,
       });
       if (!res.ok || String((await res.json()).success) !== 'true') throw new Error('Sign-up not accepted');
     } catch {
-      // FormSubmit often errors or times out even when the email does arrive, so keep the
-      // confirmation and log the failure in GoatCounter to keep an eye on it
+      // keep the confirmation (the email may still have gone) and log the failure in GoatCounter
       track('signup-send-error', 'Sign-up send error');
       return;
     } finally {
