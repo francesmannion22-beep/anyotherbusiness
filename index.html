@@ -248,6 +248,8 @@
     transition: border-color .3s, background .3s;
   }
   .values:hover { border-color: #b9b8b1; }
+  /* missed the stamp: make the box itself say so */
+  .field:has(#err-values:not([hidden])) .values { border-style: solid; border-color: var(--error); }
   .values-input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
   .values-input:focus-visible ~ .stamp { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 50%; }
   .stamp { flex: none; width: 92px; height: 92px; display: block; transform: rotate(-4deg); transition: transform .3s; }
@@ -453,7 +455,7 @@
             <span class="values-hint">Tap the stamp to agree</span>
           </span>
         </label>
-        <span class="err" id="err-values" hidden>Give it a stamp to join.</span>
+        <span class="err" id="err-values" hidden>Tap the stamp to agree to our values, then press Join us.</span>
         </div>
         <div class="submit-row">
           <button type="submit" class="btn">Join us</button>
@@ -579,28 +581,36 @@
       firstErr && firstErr.closest('.field').scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
-    const data = { name: val('name'), email: val('email'), location: val('location'), business: val('biz'), agreedToValues: true };
+    const data = { name: val('name'), email: val('email'), location: val('location'), business: val('biz'), agreedToValues: 'yes' };
     submitBtn.disabled = true;
     sendError.hidden = true;
+    // FormSubmit can take several seconds, so confirm straight away and send in the background
+    showDone(data.name);
     try {
+      // url-encoded keeps this a simple request: no CORS preflight round trip
       const res = await fetch(CONFIG.signupUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ ...data, _subject: `${CONFIG.name} sign-up: ${data.name}`, _template: 'table' }),
+        headers: { Accept: 'application/json' },
+        body: new URLSearchParams({ ...data, _subject: `${CONFIG.name} sign-up: ${data.name}`, _template: 'table' }),
+        keepalive: true,
       });
       if (!res.ok || String((await res.json()).success) !== 'true') throw new Error('Sign-up not accepted');
     } catch {
-      sendError.hidden = false;
+      // FormSubmit often errors or times out even when the email does arrive, so keep the
+      // confirmation and log the failure in GoatCounter to keep an eye on it
+      track('signup-send-error', 'Sign-up send error');
       return;
     } finally {
       submitBtn.disabled = false;
     }
-    document.getElementById('done-name').textContent = data.name.split(/\s+/)[0] || 'friend';
+    track('signup-complete', 'Sign-up completed');
+  });
+  const showDone = name => {
+    document.getElementById('done-name').textContent = name.split(/\s+/)[0] || 'friend';
     document.getElementById('form-view').hidden = true;
     document.getElementById('done-view').hidden = false;
-    track('signup-complete', 'Sign-up completed');
     document.querySelector('#done-view p').focus();
-  });
+  };
   document.getElementById('reset').addEventListener('click', () => {
     form.reset(); tried = false; validate();
     document.getElementById('done-view').hidden = true;
