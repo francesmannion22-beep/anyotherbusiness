@@ -278,6 +278,8 @@
 
   .form-title { font-family: var(--serif); font-weight: 400; font-size: clamp(30px, 4vw, 38px); line-height: 1.05; margin: 0 48px 8px 0; color: var(--ink-strong); }
   .form-intro { margin: 0 0 28px; font-size: 16px; line-height: 1.5; color: var(--muted); }
+  .privacy-note { margin: 16px 0 0; font-size: 14px; }
+  .privacy-note a { color: var(--muted); text-underline-offset: 3px; }
   .done { display: flex; flex-direction: column; gap: 20px; padding: 16px 0; }
   .done[hidden] { display: none; }
   .badge { align-self: flex-start; background: var(--accent); border-radius: 999px; padding: 8px 14px; font-size: 13px; }
@@ -387,7 +389,7 @@
         <h2 class="me-name" id="me-h">Hi, I'm Frances.</h2>
         <p>Co-founder of The Dx, where we build voice agents for the long tail of customer accounts.</p>
         <p>New(ish) mum. Born in Auckland, New Zealand, and currently in London.</p>
-        <p><a class="me-link" href="https://www.linkedin.com/in/frances-mannion-660b9b106/" target="_blank" rel="noopener">LinkedIn<span class="sr-only"> (opens in a new tab)</span></a></p>
+        <p><a class="me-link" href="https://www.linkedin.com/in/frances-mannion-660b9b106/" target="_blank" rel="noopener">LinkedIn<span class="sr-only"> (opens in a new tab)</span></a> <span aria-hidden="true">·</span> <a class="me-link" href="privacy.html">Privacy</a></p>
       </div>
     </div>
   </div>
@@ -457,6 +459,7 @@
           <button type="submit" class="btn">Join us</button>
           <span class="err" id="err-send" role="alert" hidden>That didn't go through. Please try again.</span>
         </div>
+        <p class="privacy-note"><a href="privacy.html" target="_blank" rel="noopener">How we use your details<span class="sr-only"> (opens in a new tab)</span></a></p>
       </form>
     </div>
 
