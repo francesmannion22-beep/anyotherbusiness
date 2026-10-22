@@ -30,6 +30,7 @@
     --accent: #111110;
     --accent-hover: #3a3a36;
     --error: #a33d1c;
+    --stamp: #6f98bf;
     --serif: 'Instrument Serif', serif;
     --sans: 'Figtree', system-ui, sans-serif;
   }
@@ -254,10 +255,10 @@
   .values-input:focus-visible ~ .stamp { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 50%; }
   .stamp { flex: none; width: 92px; height: 92px; display: block; transform: rotate(-4deg); transition: transform .3s; }
   .stamp svg { width: 100%; height: 100%; overflow: visible; }
-  .stamp-rim { fill: none; stroke: #6b6a64; stroke-width: 2.5; stroke-dasharray: 6 4; transition: stroke .2s; }
+  .stamp-rim { fill: none; stroke: var(--stamp); stroke-width: 2.5; stroke-dasharray: 6 4; transition: stroke .2s; }
   .stamp-rim.thin { stroke-width: 1.2; }
-  .stamp-ring-text { font-weight: 500; font-size: 9.2px; letter-spacing: .12em; fill: #6b6a64; transition: fill .2s; }
-  .stamp-tick { fill: none; stroke: var(--accent); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 50; stroke-dashoffset: 50; }
+  .stamp-ring-text { font-weight: 500; font-size: 9.2px; letter-spacing: .12em; fill: var(--stamp); transition: fill .2s; }
+  .stamp-tick { fill: none; stroke: var(--stamp); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 50; stroke-dashoffset: 50; }
   .values-copy { display: flex; flex-direction: column; gap: 6px; }
   .values-text { font-size: 17px; line-height: 1.5; color: var(--ink); text-wrap: pretty; }
   .values-hint { font-size: 15px; font-weight: 500; color: var(--ink-strong); }
@@ -268,8 +269,8 @@
 
   .values:has(.values-input:checked) { border-style: solid; border-color: var(--accent); background: #f3f2ee; }
   .values-input:checked ~ .stamp { animation: stamp-down .45s cubic-bezier(.3, 1.6, .5, 1) both; transform: rotate(-12deg); }
-  .values-input:checked ~ .stamp .stamp-rim { stroke: var(--accent); stroke-dasharray: none; }
-  .values-input:checked ~ .stamp .stamp-ring-text { fill: var(--accent); }
+  .values-input:checked ~ .stamp .stamp-rim { stroke: var(--stamp); stroke-dasharray: none; }
+  .values-input:checked ~ .stamp .stamp-ring-text { fill: var(--stamp); }
   .values-input:checked ~ .stamp .stamp-tick { transition: stroke-dashoffset .35s .2s ease-out; stroke-dashoffset: 0; }
   .values-input:checked ~ .values-copy .values-hint { visibility: hidden; }
   @keyframes stamp-down {
