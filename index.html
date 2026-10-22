@@ -235,7 +235,7 @@
   /* Values stamp */
   .values {
     display: flex; align-items: center; gap: 20px; cursor: pointer;
-    padding: 18px; border: 1px dashed #d9d7cf; border-radius: 14px; background: #f9f8f5;
+    padding: 18px; border: 1px dashed #b9b8b1; border-radius: 14px; background: #f9f8f5;
     transition: border-color .3s, background .3s;
   }
   .values:hover { border-color: #b9b8b1; }
@@ -243,9 +243,9 @@
   .values-input:focus-visible ~ .stamp { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 50%; }
   .stamp { flex: none; width: 92px; height: 92px; display: block; transform: rotate(-4deg); transition: transform .3s; }
   .stamp svg { width: 100%; height: 100%; overflow: visible; }
-  .stamp-rim { fill: none; stroke: #c9c7bf; stroke-width: 2; stroke-dasharray: 3 4; transition: stroke .2s; }
+  .stamp-rim { fill: none; stroke: #6b6a64; stroke-width: 2.5; stroke-dasharray: 6 4; transition: stroke .2s; }
   .stamp-rim.thin { stroke-width: 1.2; }
-  .stamp-ring-text { font-weight: 500; font-size: 9.2px; letter-spacing: .12em; fill: #b9b8b1; transition: fill .2s; }
+  .stamp-ring-text { font-weight: 500; font-size: 9.2px; letter-spacing: .12em; fill: #6b6a64; transition: fill .2s; }
   .stamp-tick { fill: none; stroke: var(--accent); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 50; stroke-dashoffset: 50; }
   .values-copy { display: flex; flex-direction: column; gap: 6px; }
   .values-text { font-size: 17px; line-height: 1.5; color: var(--ink); text-wrap: pretty; }
@@ -267,6 +267,8 @@
   .submit-row .btn { padding: 16px 28px; font-size: 16px; }
   .submit-row .btn:disabled { opacity: .6; cursor: progress; }
 
+  .form-title { font-family: var(--serif); font-weight: 400; font-size: clamp(30px, 4vw, 38px); line-height: 1.05; margin: 0 48px 8px 0; color: var(--ink-strong); }
+  .form-intro { margin: 0 0 28px; font-size: 16px; line-height: 1.5; color: var(--muted); }
   .done { display: flex; flex-direction: column; gap: 20px; padding: 16px 0; }
   .done[hidden] { display: none; }
   .badge { align-self: flex-start; background: var(--accent); border-radius: 999px; padding: 8px 14px; font-size: 13px; }
@@ -311,7 +313,7 @@
   </div>
 
   <div class="hero-title-wrap">
-    <h1 class="hero-title" aria-label="An inclusive members club. For women building things."><span aria-hidden="true">An inclusive members club.<br>For women building things.</span></h1>
+    <h1 class="hero-title" aria-label="A free community. For women building things."><span aria-hidden="true">A free community.<br>For women building things.</span></h1>
   </div>
 
 </section>
@@ -397,6 +399,8 @@
     <button type="button" class="close" data-close aria-label="Close">✕</button>
 
     <div id="form-view">
+      <h2 class="form-title">Join Any Other Business</h2>
+      <p class="form-intro">It's free. We'll email you the details of the next meeting.</p>
       <form id="signup" novalidate>
         <label class="field">
           <span class="field-label">Name</span>
@@ -440,7 +444,7 @@
         <span class="err" id="err-values" hidden>Give it a stamp to join.</span>
         </div>
         <div class="submit-row">
-          <button type="submit" class="btn">Save my seat</button>
+          <button type="submit" class="btn">Join us</button>
           <span class="err" id="err-send" role="alert" hidden>That didn't go through. Please try again.</span>
         </div>
       </form>
